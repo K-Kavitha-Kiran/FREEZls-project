@@ -12,7 +12,8 @@ def sendmail():
     me = 'yourmail@gmail.com'
     password = input("Enter password for "+me+": ")
     server = 'smtp.gmail.com:587'
-    you = 'receipientmail@gmail.com'
+    #you = 'receipientmail@gmail.com'
+    you = 'kavitha.kasivajjhala@gmail.com'
 
     text = """
     Hello, Friend.
