@@ -9,21 +9,16 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
 def sendmail():
-    me = 'yourmail@gmail.com'
+    me = 'freezls.project@gmail.com'
     password = input("Enter password for "+me+": ")
     server = 'smtp.gmail.com:587'
-    #you = 'receipientmail@gmail.com'
     you = 'kavitha.kasivajjhala@gmail.com'
 
     text = """
     Hello, Friend.
-
     Here is your data:
-
     {table}
-
     Regards,
-
     Smart Fridge"""
 
     html = """
@@ -53,6 +48,7 @@ def sendmail():
     server.starttls()
     server.login(me, password)
     server.sendmail(me, you, message.as_string())
+    print("=>  Mail Sent  <=")
     server.quit()
 
 thres = 0.70 # Threshold to detect object
@@ -76,8 +72,8 @@ net.setInputScale(1.0/ 127.5)
 net.setInputMean((127.5, 127.5, 127.5))
 net.setInputSwapRB(True)
 # print(datetime.datetime().strftime("%d-%m-%Y, %H:%M"))
-k = input("Enter s to start\n")
-if(k == 's'):
+k = input("Enter s to start\te to end\n")
+while(k == 's'):
     i = 1
     flag = False
     while(True):
@@ -90,7 +86,7 @@ if(k == 's'):
             for classId, confidence,box in zip(classIds.flatten(),confs.flatten(),bbox):
                 cv2.rectangle(img,box,color=(0,255,0),thickness=2)
                 prev = 'person'
-                if(classNames[classId-1]!=prev and (classNames[classId-1]=='banana' or classNames[classId-1]=='apple' or classNames[classId-1]=='orange')):
+                if(classNames[classId-1]!=prev and (classNames[classId-1]=='banana' or classNames[classId-1]=='apple' or classNames[classId-1]=='orange' or classNames[classId-1]=='broccoli' or classNames[classId-1]=='tomato' or classNames[classId-1]=='carrot')):
                     print("added",classNames[classId-1],"list updated")
                     prev = classNames[classId-1]
                     with open('items_list.csv', mode='a',newline='') as items_list:
@@ -106,8 +102,6 @@ if(k == 's'):
                         elif(classNames[classId-1]=='apple'):
                             expiry = today + timedelta(days=5)
                             items_writer.writerow([classNames[classId-1], day, expiry])
-
-                    sendmail()
                     flag = True
                     break
                 # cv2.putText(img,classNames[classId-1],(box[0]+10,box[1]+30),
@@ -118,3 +112,5 @@ if(k == 's'):
             break
         cv2.imshow('Output',img)
         cv2.waitKey(1)
+    k = input("Enter s to start\te to end\n")
+sendmail()
