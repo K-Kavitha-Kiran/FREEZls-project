@@ -13,6 +13,7 @@ def sendmail(text, html, data, subject, header):
 
     me = 'freezls.project@gmail.com'
     password = "MiniProject"
+    #transport layer security port number
     server = 'smtp.gmail.com:587'
     #you = input()
     you = 'kavitha.kasivajjhala@gmail.com'
@@ -26,6 +27,7 @@ def sendmail(text, html, data, subject, header):
     message['Subject'] = subject
     message['From'] = me
     message['To'] = you
+    #main statement
     server = smtplib.SMTP(server)
     server.ehlo()
     server.starttls()
@@ -33,7 +35,7 @@ def sendmail(text, html, data, subject, header):
     server.sendmail(me, you, message.as_string())
     server.quit()
 
-def alert(ldata):
+def alert():
     text = """
     Hello, User.
     Here is the list of Items about to expire:
@@ -165,7 +167,7 @@ def insert():
         day = str(str(dateTimeObj.day)+"-"+str(dateTimeObj.month)+"-"+str(dateTimeObj.year)+" "+str(dateTimeObj.hour)+":"+str(dateTimeObj.minute))
         # date = datetime.datetime().strftime(today,"%d-%m-%Y, %H:%M")
         expiry = date.today() + timedelta(days=items[Item_name][1])
-        # row of csv file     ( item name        insert datetime            expiry                          Category          )
+        # row of csv file   ( item name ,insert datetime, expiry, Category)
         items_writer.writerow([Item_name, day, expiry, items[Item_name][0]])
             
 def delete():
@@ -174,7 +176,7 @@ def delete():
     with open('items_list.csv') as input_file:
         reader = csv.reader(input_file)
         data = list(reader)
-
+        
         for idx in range(len(data)):
             if(data[idx][0]==Item_name):
                 print("deleted",data[idx][0],"inserted on",data[idx][1])
@@ -185,6 +187,9 @@ def delete():
             writer = csv.writer(writeFile)
             writer.writerows(data)
 
+#prevdate="22-06-2021"
+#if(prevdate!=date.today()):
+    #alert()
 #input from user
 k = input("Enter your choice\n \ti to insert\tl for list\ta for alert\td to delete\n")
 if(k=='i'):
