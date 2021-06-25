@@ -56,13 +56,14 @@ def alert():
         reader = csv.reader(input_file)
         ldata = list(reader)
     #alert prior to expiry
-    #alertdays=2
+    alertdays=3
     #sorting in order of expiry
     ldata=(sorted(ldata, key = lambda x: x[2]))
     data=[]
     for i in range(len(ldata)):
-        #if(data[i][2]-date.today()>alertdays):
-            #break
+        datestr = (datetime.strptime(ldata[i][2][:10], "%Y-%m-%d"))
+        if((datestr.date() - date.today()).days > alertdays):
+            break
         data.append([ldata[i][0],ldata[i][2]])
 
     if(len(data)>=1):
@@ -188,7 +189,7 @@ def delete():
             writer.writerows(data)
 
 #prevdate="22-06-2021"
-#if(prevdate!=date.today()):
+#if(prevdate!=date.today()): or   #if(time==give_time()):
     #alert()
 #input from user
 k = input("Enter your choice\n \ti to insert\tl for list\ta for alert\td to delete\n")
